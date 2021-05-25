@@ -1,4 +1,4 @@
-# Drop-Clause-Interpretable-TM
+# Human Interpretable AI: Randomized StochasticTsetlin Machine with Drop Clause
 
 Install the drop clause multi-gpu Tsetlin machine:
 
