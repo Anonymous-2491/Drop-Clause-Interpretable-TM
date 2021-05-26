@@ -17,10 +17,10 @@ Using the drop clause TM:
 
 Running the code (from examples folder):
 
-	With default parameters- python CIFARDemo2DConvTM_Interpret.py --gpus 1 --stop_train 1000
+	With default parameters- python CIFARDemo2DConvTM_Interpret.py -gpus 1 -stop_train 1000
 
-	With Interpretability- python CIFARDemo2DConvTM_Interpret.py --interpret True
+	With Interpretability- python CIFARDemo2DConvTM_Interpret.py -interpret True
 
-	With changes in hyperparameters- python CIFARDemo2DConvTM_Interpret.py --n_clauses_per_class 30000 --s 10.0 --T 750 --drop_clause 0.5 --patch_size 8 --gpus 8
+	With changes in hyperparameters- python CIFARDemo2DConvTM_Interpret.py -n_clauses_per_class 30000 -s 10.0 -T 750 -drop_clause 0.5 -patch_size 8 -gpus 8
 
 	Similarly for NLP Interpretability- python SSTDemoWeightedClauses_Interpret.py
