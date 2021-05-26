@@ -277,9 +277,9 @@ if config.interpret:
         
     #Save fulloriginalword, fullnegatedword, neededoriginalword, or needednegatedword (Preferred needednegatedword for interpretability)
     interpretList = np.asarray(needednegatedword)
-    np.savetxt('interpretFile.csv', interpretList, fmt='%s')
+    np.savetxt('interpret_sst.csv', interpretList, fmt='%s')
 
-    df = pd.read_csv('interpretFile.csv', dtype=str, header=None)
+    df = pd.read_csv('interpret_sst.csv', dtype=str, header=None)
     df1 = df.iloc[:,:]
     full1 = df.iloc[:,:].values
     #full1= np.reshape(full1,(10,20))
