@@ -27,8 +27,9 @@ s = config.s
 
 T = int(factor*config.T)
 
-clauses = config.n_clauses_per_class
 n_classes = 10
+clauses = config.n_clauses_per_class*n_classes
+
 
 drop_clause = config.drop_clause
 n_gpus = config.gpus
@@ -93,7 +94,7 @@ X_test = np.where(X_test1 >= 75, 1, 0)
 f = open("mnist_%.1f_%d_%d_%d.txt" % (s, clauses, T,  patch_size), "w+")
 
 for e in range(ensembles):
-	tm = MultiClassConvolutionalTsetlinMachine2D(clauses*n_classes, T, s, (patch_size, patch_size), clause_drop_p = drop_clause, number_of_gpus = n_gpus, number_of_state_bits=number_of_state_bits)
+	tm = MultiClassConvolutionalTsetlinMachine2D(clauses, T, s, (patch_size, patch_size), clause_drop_p = drop_clause, number_of_gpus = n_gpus, number_of_state_bits=number_of_state_bits)
 
 	for i in range(epochs):
 		start_training = time()
