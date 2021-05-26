@@ -181,6 +181,8 @@ for i in range(config.stop_train):
      		r_50+=result
 
 	print("#%d Accuracy: %.2f%% Training: %.2fs Testing: %.2fs \n" % (i+1, result, stop_training-start_training, stop_testing-start_testing), file=f)
+	print("#%d Accuracy: %.2f%% Training: %.2fs Testing: %.2fs \n" % (i+1, result, stop_training-start_training, stop_testing-start_testing))
+	f.flush()
 
 print("Average Accuracy last 50 epochs: %.2f \n" %(r_50/50), file=f)
 print("Average Accuracy last 25 epochs: %.2f \n" %(r_25/25), file=f)
