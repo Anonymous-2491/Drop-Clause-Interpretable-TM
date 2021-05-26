@@ -17,10 +17,10 @@ Using the drop clause TM:
 
 Running the code (from examples folder):
 
-	With default parameters (For CIFAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -gpus 1 -stop_train 1000
+	With default parameters (For CIFAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -gpus 16 -stop_train 1000
 
 	With Interpretability (For CIAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -interpret True
 
-	With changes in hyperparameters (For CIFAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -n_clauses_per_class 30000 -s 10.0 -T 750 -drop_clause 0.5 -patch_size 8 -gpus 8
+	With changes in hyperparameters (For CIFAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -n_clauses_per_class 30000 -s 10.0 -T 750 -drop_clause 0.5 -patch_size 8 -gpus 16
 
 	Similarly for NLP Interpretability (For SST-2 and IMDb)- python SSTDemoWeightedClauses_Interpret.py
