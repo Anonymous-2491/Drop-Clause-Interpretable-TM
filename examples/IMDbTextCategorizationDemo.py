@@ -9,6 +9,33 @@ from keras.datasets import imdb
 from pyTsetlinMachine.tm import MultiClassTsetlinMachine
 from time import time
 
+import re
+import string
+import nltk
+from nltk.tokenize import word_tokenize
+from string import punctuation 
+from nltk.corpus import stopwords 
+nltk.download('punkt')
+nltk.download('stopwords')
+import pandas as pd
+from nltk.stem import PorterStemmer 
+from nltk import FreqDist 
+from nltk.tokenize import RegexpTokenizer
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from PyTsetlinMachineCUDA.tm import MultiClassTsetlinMachine
+nltk.download('wordnet')
+from time import time 
+stop_words = set(stopwords.words('english'))
+tokenizerR = RegexpTokenizer(r'\w+')
+from numpy import save
+from nltk.stem import WordNetLemmatizer 
+from argparse import ArgumentParser
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+
 
 parser = ArgumentParser()
 parser.add_argument('-n_clauses_per_class', type=int, default=5000)
