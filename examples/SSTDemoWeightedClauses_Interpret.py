@@ -42,6 +42,8 @@ parser.add_argument('-gpus', type=int, default=1)
 parser.add_argument('-stop_train', type=int, default=250)
 parser.add_argument('-example', type=int, default=1)
 
+config = parser.parse_args()
+
 clauses = config.n_clauses_per_class
 T = config.T
 s = config.s
