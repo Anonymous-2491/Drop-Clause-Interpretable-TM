@@ -40,6 +40,7 @@ parser.add_argument('-state_bits', type=int, default=8)
 parser.add_argument('-features', type=int, default=7500)
 parser.add_argument('-gpus', type=int, default=1)
 parser.add_argument('-stop_train', type=int, default=250)
+parser.add_argument('-example', type=int, default=1)
 
 clauses = config.n_clauses_per_class
 T = config.T
@@ -194,9 +195,9 @@ print("Average Accuracy last 50 epochs: %.2f \n" %(r_50/50), file=f)
 print("Max Accuracy: %.2f \n" %(max), file=f)
 
 if config.interpret:
-
-    print('predicted Class:  ', tm1.predict(X_train[4245:4246,:]))
-    triggClause = tm1.transform(X_train[4245:4246,:])
+    example = config.example
+    print('predicted Class:  ', tm1.predict(X_train[example:example+1,:]))
+    triggClause = tm1.transform(X_train[example:example+1,:])
     clauseIndex = []
     for i in range(len(triggClause[0])):
         if triggClause[0][i] ==1:
