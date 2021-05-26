@@ -14,10 +14,10 @@ parser.add_argument('-interpret', type=bool, default=False)
 parser.add_argument('-n_clauses_per_class', type=int, default=8000)
 parser.add_argument('-s', type=float, default=5.0)
 parser.add_argument('-T', type=int, default=250)
-parser.add_argument('-drop_clause', type=float, default=0.0)
-parser.add_argument('-state_bits', type=int, default=8)
+parser.add_argument('-drop_clause', type=float, default=0.5)
+parser.add_argument('-state_bits', type=int, default=12)
 parser.add_argument('-patch_size', type=int, default=10)
-parser.add_argument('-gpus', type=int, default=1)
+parser.add_argument('-gpus', type=int, default=16)
 parser.add_argument('-stop_train', type=int, default=250)
 
 config = parser.parse_args()
@@ -113,72 +113,69 @@ for e in range(ensembles):
 
 		if config.interpret:
         
-            if max > 99.0:
+			if max > 98.0:
             
-                class_id = 0
-                clause = 0
-                max_weight = 0
+				class_id = 0
+				clause = 0
+				max_weight = 0
                 
-                for i in range(9):
-                    for j in range(clauses//10):
-                        if tm.get_weight(i, j) > max_weight:
-                            class_id = i
-                            clause = j
-                            max_weight = tm.get_weight(i, j)
+				for i in range(9):
+					for j in range(clauses//10):
+						if tm.get_weight(i, j) > max_weight:
+							class_id = i
+							clause = j
+							max_weight = tm.get_weight(i, j)
 
-                print("Class: %d" %(class_id), file=f)
-                print("Max_weight: %d" %(max_weight), file=f)
+				print("Class: %d" %(class_id), file=f)
+				print("Max_weight: %d" %(max_weight), file=f)
 
-                clause_weights_for_class = []
-                for k in range(clauses//10):
-                    clause_weights_for_class.append(tm.get_weight(class_id, k))
+				clause_weights_for_class = []
+				for k in range(clauses//10):
+					clause_weights_for_class.append(tm.get_weight(class_id, k))
 
-                weight_indices = sorted(range(len(clause_weights_for_class)), key=lambda k: clause_weights_for_class[k], reverse=True)
+				weight_indices = sorted(range(len(clause_weights_for_class)), key=lambda k: clause_weights_for_class[k], reverse=True)
                 
-                Max_class_instances = []
-                Max_class_instances_original = []
-                for q in range(X_test.shape[0]):
-                    if Y_test[q] == class_id and tm.predict(X_test[q]) == Y_test[q]:
-                        Max_class_instances.append(X_test[q])
-                        Max_class_instances_original.append(X_test1[q])
-                        break
+				Max_class_instances = []
+				Max_class_instances_original = []
+				for q in range(X_test.shape[0]):
+					if Y_test[q] == class_id and tm.predict(np.expand_dims(X_test[q], axis=0)) == Y_test[q]:
+						Max_class_instances.append(X_test[q])
+						Max_class_instances_original.append(X_test1[q])
+						break
                 
-                outputs = np.zeros((image_size,image_size)).astype(np.uint8)
+				outputs = np.zeros((image_size,image_size)).astype(np.uint8)
                 
                 #Clauses with top 100 weights
                 # Combined mask (-1 must be 0 and 1 must be 1 for the corresponding image pixel value, 0 means ignore image pixel value)
 
-                np.set_printoptions(linewidth=np.inf)
+				np.set_printoptions(linewidth=np.inf)
 
-                for p in range(100):
-                    output = np.zeros((image_size,image_size)).astype(np.uint8)
-                    lower_x, lower_y, upper_x, upper_y, mask_1, mask_0 = get_lower_upper_x_y_masks(class_id, weight_indices[p])
+				for p in range(100):
+					output = np.zeros((image_size,image_size)).astype(np.uint8)
+					lower_x, lower_y, upper_x, upper_y, mask_1, mask_0 = get_lower_upper_x_y_masks(class_id, weight_indices[p])
                     #print("Max Weight Number: ", p+1)
                     #print("Weight: ", clause_weights_for_class[weight_indices[p]])
                     #print(lower_x, "< x <=", upper_x)
                     #print(lower_y, "< y <=", upper_y)
-                    mask = mask_1 - mask_0
-                    for i in range(lower_x, upper_x):
-                        for j in range(lower_y, upper_y):
-                            for k in range(patch_size):
-                                for l in range(patch_size):
-                                    if i+k >= image_size or j+l >= image_size:
-                                        break
-                                    elif mask[k][l] == 1 and Max_class_instances[0][i+k][j+l] == 1:
-                                        output[i+k][j+l] = 1
-                                    elif mask[k][l] == -1 and Max_class_instances[0][i+k][j+l] == 0:
-                                        output[i+k][j+l] = 1                    
-                    outputs += output
+					mask = mask_1 - mask_0
+					for i in range(lower_x, upper_x):
+						for j in range(lower_y, upper_y):
+							for k in range(patch_size):
+								for l in range(patch_size):
+									if i+k >= image_size or j+l >= image_size:
+										break
+									elif mask[k][l] == 1 and Max_class_instances[0][i+k][j+l] == 1:
+										output[i+k][j+l] = 1
+									elif mask[k][l] == -1 and Max_class_instances[0][i+k][j+l] == 0:
+										output[i+k][j+l] = 1                    
+					outputs += output
                     
-                plt.imshow(Max_class_instances_original[0].astype(np.uint8), interpolation='nearest')
-                plt.savefig('img_dc_%.2f_%d.jpeg' %(drop_clause,batch))
-                plt.imshow(outputs, cmap='hot', interpolation='nearest')
-                plt.savefig('heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
-                plt.imshow(Max_class_instances_original[0], interpolation='nearest')
-                plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
-                plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
-            
-        if batch > config.stop_train:
-            break
-                
+				plt.imshow(Max_class_instances_original[0].astype(np.uint8), interpolation='nearest')
+				plt.savefig('img_dc_%.2f_%d.jpeg' %(drop_clause,batch))
+				plt.imshow(outputs, cmap='hot', interpolation='nearest')
+				plt.savefig('heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+				plt.imshow(Max_class_instances_original[0], interpolation='nearest')
+				plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
+				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+    
 f.close()
