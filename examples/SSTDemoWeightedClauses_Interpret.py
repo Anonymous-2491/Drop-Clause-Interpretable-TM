@@ -45,6 +45,7 @@ parser.add_argument('-example', type=int, default=1)
 config = parser.parse_args()
 
 clauses = config.n_clauses_per_class
+c = clauses*2
 T = config.T
 s = config.s
 drop_clause = config.drop_clause
@@ -162,7 +163,7 @@ print(ytest.shape)
 X_dev = X_text[tt:,:]
 Y_dev = y[tt:]
 
-tm1 = MultiClassTsetlinMachine(clauses*2, T*16, s, clause_drop_p=drop_clause, number_of_gpus=n_gpus, number_of_state_bits=number_of_state_bits)
+tm1 = MultiClassTsetlinMachine(c, T*16, s, clause_drop_p=drop_clause, number_of_gpus=n_gpus, number_of_state_bits=number_of_state_bits)
 
 f = open("sst_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T, drop_clause, number_of_state_bits), "w+")
 
