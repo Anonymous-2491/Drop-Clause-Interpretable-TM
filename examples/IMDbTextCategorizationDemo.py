@@ -6,7 +6,6 @@ import keras
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from keras.datasets import imdb
-from pyTsetlinMachine.tm import MultiClassTsetlinMachine
 from time import time
 
 import re
@@ -36,14 +35,15 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
 
+
 parser = ArgumentParser()
 parser.add_argument('-n_clauses_per_class', type=int, default=5000)
 parser.add_argument('-s', type=float, default=5.0)
 parser.add_argument('-T', type=int, default=80)
-parser.add_argument('-drop_clause', type=float, default=0.0)
-parser.add_argument('-state_bits', type=int, default=8)
+parser.add_argument('-drop_clause', type=float, default=0.75)
+parser.add_argument('-state_bits', type=int, default=12)
 parser.add_argument('-features', type=int, default=7500)
-parser.add_argument('-gpus', type=int, default=1)
+parser.add_argument('-gpus', type=int, default=16)
 parser.add_argument('-stop_train', type=int, default=250)
 parser.add_argument('-example', type=int, default=1)
 
@@ -155,7 +155,7 @@ selected_features = SKB.get_support(indices=True)
 X_train = SKB.transform(X_train)
 X_test = SKB.transform(X_test)
 
-tm1 = MultiClassTsetlinMachine(clauses*2, T, s, weighted_clauses=True, clause_drop_p=drop_clause, number_of_state_bits=number_of_state_bits, number_of_gpus=n_gpus)
+tm1 = MultiClassTsetlinMachine(clauses*2, T, s, clause_drop_p=drop_clause, number_of_state_bits=number_of_state_bits, number_of_gpus=n_gpus)
 
 f = open("imdb_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T,  drop_clause, number_of_state_bits), "w+")
 
@@ -269,9 +269,9 @@ if config.interpret:
         
     #Save fulloriginalword, fullnegatedword, neededoriginalword, or needednegatedword (Preferred needednegatedword for interpretability)
     interpretList = np.asarray(needednegatedword)
-    np.savetxt('interpretFile.csv', interpretList, fmt='%s')
+    np.savetxt('interpret_imdb.csv', interpretList, fmt='%s')
 
-    df = pd.read_csv('interpretFile.csv', dtype=str, header=None)
+    df = pd.read_csv('interpret_imdb.csv', dtype=str, header=None)
     df1 = df.iloc[:,:]
     full1 = df.iloc[:,:].values
     #full1= np.reshape(full1,(10,20))
