@@ -6,7 +6,6 @@ import keras
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from keras.datasets import imdb
-from pyTsetlinMachine.tm import MultiClassTsetlinMachine
 from time import time
 
 import re
