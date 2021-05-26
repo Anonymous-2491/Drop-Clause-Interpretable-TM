@@ -86,9 +86,9 @@ def get_lower_upper_x_y_masks(class_id, clause):
     
     return lower_x, lower_y, upper_x, upper_y, mask_1, mask_0
 
-(X_train, Y_train), (X_test, Y_test) = fashion_mnist.load_data()
+(X_train, Y_train), (X_test1, Y_test) = fashion_mnist.load_data()
 X_train = np.copy(X_train)
-X_test = np.copy(X_test)
+X_test = np.copy(X_test1)
 
 for i in range(X_train.shape[0]):
 	X_train[i,:] = cv2.adaptiveThreshold(X_train[i], 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
