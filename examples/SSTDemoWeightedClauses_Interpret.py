@@ -35,12 +35,21 @@ parser.add_argument('-interpret', type=bool, default=False)
 parser.add_argument('-n_clauses_per_class', type=int, default=5000)
 parser.add_argument('-s', type=float, default=5.0)
 parser.add_argument('-T', type=int, default=80)
-parser.add_argument('-drop_clause', type=float, default=0.0)
-parser.add_argument('-state_bits', type=int, default=8)
+parser.add_argument('-drop_clause', type=float, default=0.75)
+parser.add_argument('-state_bits', type=int, default=12)
 parser.add_argument('-features', type=int, default=7500)
-parser.add_argument('-gpus', type=int, default=1)
+parser.add_argument('-gpus', type=int, default=16)
 parser.add_argument('-stop_train', type=int, default=250)
-parser.add_argument('-example', type=int, default=4245)
+parser.add_argument('-example', type=int, default=1)
+
+config = parser.parse_args()
+
+clauses = config.n_clauses_per_class
+T = config.T
+s = config.s
+drop_clause = config.drop_clause
+number_of_state_bits = config.state_bits
+n_gpus = config.gpus
 
 config = parser.parse_args()
 
@@ -90,8 +99,6 @@ def prepreocess(data):
     return input_data
 
 input_text = prepreocess(textOrig)
-
-
 
 
 inputtext = []
@@ -155,9 +162,9 @@ print(ytest.shape)
 X_dev = X_text[tt:,:]
 Y_dev = y[tt:]
 
-tm1 = MultiClassTsetlinMachine(config.n_clauses_per_class*2, config.T*16, config.s, clause_drop_p=config.drop_clause, number_of_gpus=config.gpus, number_of_state_bits=config.state_bits)
+tm1 = MultiClassTsetlinMachine(clauses*2, T*16, s, clause_drop_p=drop_clause, number_of_gpus=n_gpus, number_of_state_bits=number_of_state_bits)
 
-f = open("sst_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T,  drop_clause, number_of_state_bits), "w+")
+f = open("sst_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T, drop_clause, number_of_state_bits), "w+")
 
 r_25 = 0
 r_50 = 0
@@ -184,6 +191,8 @@ for i in range(config.stop_train):
 		r_25+=result1
 
 	print("#%d AccuracyTrain: %.2f%% AccuracyTest: %.2f%%  Training: %.2fs Testing: %.2fs" % (i+1, result2, result1, stop_training-start_training, stop_testing-start_testing), file=f)
+	print("#%d AccuracyTrain: %.2f%% AccuracyTest: %.2f%%  Training: %.2fs Testing: %.2fs" % (i+1, result2, result1, stop_training-start_training, stop_testing-start_testing))
+	f.flush()
 
 print("Average Accuracy last 25 epochs: %.2f \n" %(r_25/25), file=f)
 print("Average Accuracy last 50 epochs: %.2f \n" %(r_50/50), file=f)
@@ -272,9 +281,9 @@ if config.interpret:
         
     #Save fulloriginalword, fullnegatedword, neededoriginalword, or needednegatedword (Preferred needednegatedword for interpretability)
     interpretList = np.asarray(needednegatedword)
-    np.savetxt('interpretFile.csv', interpretList, fmt='%s')
+    np.savetxt('interpret_sst.csv', interpretList, fmt='%s')
 
-    df = pd.read_csv('interpretFile.csv', dtype=str, header=None)
+    df = pd.read_csv('interpret_sst.csv', dtype=str, header=None)
     df1 = df.iloc[:,:]
     full1 = df.iloc[:,:].values
     #full1= np.reshape(full1,(10,20))
