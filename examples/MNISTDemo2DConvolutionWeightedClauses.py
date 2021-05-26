@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from keras.preprocessing.image import ImageDataGenerator
 from keras.datasets import mnist
 import random
-import cv2
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
@@ -86,10 +85,10 @@ def get_lower_upper_x_y_masks(class_id, clause):
     
     return lower_x, lower_y, upper_x, upper_y, mask_1, mask_0
 
-(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+(X_train, Y_train), (X_test1, Y_test) = mnist.load_data()
 
 X_train = np.where(X_train >= 75, 1, 0) 
-X_test = np.where(X_test >= 75, 1, 0)
+X_test = np.where(X_test1 >= 75, 1, 0)
 
 f = open("mnist_%.1f_%d_%d_%d.txt" % (s, clauses, T,  patch_size), "w+")
 
