@@ -13,10 +13,10 @@ from argparse import ArgumentParser
 
 parser = ArgumentParser()
 parser.add_argument('-interpret', type=bool, default=False)
-parser.add_argument('-n_clauses_per_class', type=int, default=30000)
+parser.add_argument('-n_clauses_per_class', type=int, default=60000)
 parser.add_argument('-s', type=float, default=10.0)
 parser.add_argument('-T', type=int, default=750)
-parser.add_argument('-drop_clause', type=float, default=0.0)
+parser.add_argument('-drop_clause', type=float, default=0.5)
 parser.add_argument('-state_bits', type=int, default=8)
 parser.add_argument('-patch_size', type=int, default=8)
 parser.add_argument('-gpus', type=int, default=16)
