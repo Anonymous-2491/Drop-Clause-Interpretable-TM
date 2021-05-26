@@ -4,7 +4,7 @@ Install the drop clause multi-gpu Tsetlin machine:
 
 	python setup.py install
 
-	pip install requirements.txt
+	pip install -r requirements.txt
 
 Using the drop clause TM:
 
