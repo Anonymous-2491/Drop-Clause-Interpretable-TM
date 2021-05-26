@@ -155,7 +155,7 @@ selected_features = SKB.get_support(indices=True)
 X_train = SKB.transform(X_train)
 X_test = SKB.transform(X_test)
 
-tm1 = MultiClassTsetlinMachine(clauses*2, T, s, weighted_clauses=True, clause_drop_p=drop_clause, number_of_state_bits=number_of_state_bits, number_of_gpus=n_gpus)
+tm1 = MultiClassTsetlinMachine(clauses*2, T, s, clause_drop_p=drop_clause, number_of_state_bits=number_of_state_bits, number_of_gpus=n_gpus)
 
 f = open("imdb_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T,  drop_clause, number_of_state_bits), "w+")
 
