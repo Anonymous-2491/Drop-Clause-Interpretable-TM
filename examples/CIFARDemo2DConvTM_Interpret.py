@@ -13,13 +13,13 @@ from argparse import ArgumentParser
 
 parser = ArgumentParser()
 parser.add_argument('-interpret', type=bool, default=False)
-parser.add_argument('-n_clauses_per_class', type=int, default=30000)
+parser.add_argument('-n_clauses_per_class', type=int, default=60000)
 parser.add_argument('-s', type=float, default=10.0)
 parser.add_argument('-T', type=int, default=750)
-parser.add_argument('-drop_clause', type=float, default=0.0)
-parser.add_argument('-state_bits', type=int, default=8)
+parser.add_argument('-drop_clause', type=float, default=0.5)
+parser.add_argument('-state_bits', type=int, default=16)
 parser.add_argument('-patch_size', type=int, default=8)
-parser.add_argument('-gpus', type=int, default=1)
+parser.add_argument('-gpus', type=int, default=16)
 parser.add_argument('-stop_train', type=int, default=1000)
 
 config = parser.parse_args()
@@ -159,7 +159,7 @@ for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=10000):
                 Max_class_instances = []
                 Max_class_instances_original = []
                 for q in range(X_test.shape[0]):
-                    if Y_test[q] == class_id and tm.predict(X_test[q]) == Y_test[q]:
+                    if Y_test[q] == class_id and tm.predict(np.expand_dims(X_test[q], axis=0)) == Y_test[q]:
                         Max_class_instances.append(X_test[q])
                         Max_class_instances_original.append(X_test1[q])
                         break
