@@ -212,8 +212,8 @@ if config.interpret:
     originalFeatures = []
     negatedFeatures = []
 
-    number_of_features = 1000
-    for j in range(0, 1500, 2):
+    number_of_features = config.features
+    for j in range(0, clauses, 2):
             #print("Clause #%d (%d): " % (j, tm1.get_weight(1, j)), end=' ')
             l = []
             for k in range(number_of_features*2):
@@ -248,7 +248,7 @@ if config.interpret:
     negatedFeatures2= []
 
     for j in clauseIndex:
-        if j < 1500 and j%2==0:
+        if j < clauses and j%2==0:
             #print("Clause #%d (%d): " % (j, tm1.get_weight(1, j)), end=' ')
             l = []
             for k in range(number_of_features*2):
