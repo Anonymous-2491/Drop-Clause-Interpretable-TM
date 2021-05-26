@@ -159,7 +159,7 @@ for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=10000):
                 Max_class_instances = []
                 Max_class_instances_original = []
                 for q in range(X_test.shape[0]):
-                    if Y_test[q] == class_id and tm.predict(X_test[q]) == Y_test[q]:
+                    if Y_test[q] == class_id and tm.predict(np.expand_dims(X_test[q], axis=0)) == Y_test[q]:
                         Max_class_instances.append(X_test[q])
                         Max_class_instances_original.append(X_test1[q])
                         break
