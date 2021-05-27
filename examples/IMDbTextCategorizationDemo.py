@@ -175,10 +175,10 @@ for i in range(config.stop_train):
 	if result > max:
 		max = result
 	
-	if i >= 175:
+	if i >= config.stop_train-25:
      		r_25+=result
     
-	if i >= 150:
+	if i >= config.stop_train-50:
      		r_50+=result
 
 	print("#%d Accuracy: %.2f%% Training: %.2fs Testing: %.2fs \n" % (i+1, result, stop_training-start_training, stop_testing-start_testing), file=f)
