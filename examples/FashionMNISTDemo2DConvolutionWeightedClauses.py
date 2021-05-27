@@ -18,7 +18,7 @@ parser.add_argument('-drop_clause', type=float, default=0.25)
 parser.add_argument('-state_bits', type=int, default=12)
 parser.add_argument('-patch_size', type=int, default=10)
 parser.add_argument('-gpus', type=int, default=16)
-parser.add_argument('-stop_train', type=int, default=250)
+parser.add_argument('-stop_train', type=int, default=200)
 
 config = parser.parse_args()
 
