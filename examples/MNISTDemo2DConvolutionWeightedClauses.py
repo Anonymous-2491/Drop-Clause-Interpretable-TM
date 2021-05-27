@@ -92,6 +92,7 @@ X_train = np.where(X_train >= 75, 1, 0)
 X_test = np.where(X_test1 >= 75, 1, 0)
 
 f = open("mnist_%.1f_%d_%d_%d_%.2f.txt" % (s, clauses, T,  patch_size, drop_clause), "w+")
+max = 0.0
 
 for e in range(ensembles):
 	tm = MultiClassConvolutionalTsetlinMachine2D(clauses, T, s, (patch_size, patch_size), clause_drop_p = drop_clause, number_of_gpus = n_gpus, number_of_state_bits=number_of_state_bits)
@@ -105,7 +106,9 @@ for e in range(ensembles):
 		result_test = 100*(tm.predict(X_test) == Y_test).mean()
 		stop_testing = time()
 
-		result_train = 100*(tm.predict(X_train) == Y_train).mean()
+		#result_train = 100*(tm.predict(X_train) == Y_train).mean()
+		if result_test > max:
+			max = result_test
 
 		print("#%d Accuracy: %.2f%% (%.2fs) \n" % (i, result_test, stop_training-start_training))
 		print("#%d Accuracy: %.2f%% (%.2fs) \n" % (i, result_test, stop_training-start_training), file=f)
@@ -113,7 +116,7 @@ for e in range(ensembles):
 
 		if config.interpret:
         
-			if max > 98.0:
+			if result_test > 98.0:
             
 				class_id = 0
 				clause = 0
@@ -153,10 +156,6 @@ for e in range(ensembles):
 				for p in range(100):
 					output = np.zeros((image_size,image_size)).astype(np.uint8)
 					lower_x, lower_y, upper_x, upper_y, mask_1, mask_0 = get_lower_upper_x_y_masks(class_id, weight_indices[p])
-                    #print("Max Weight Number: ", p+1)
-                    #print("Weight: ", clause_weights_for_class[weight_indices[p]])
-                    #print(lower_x, "< x <=", upper_x)
-                    #print(lower_y, "< y <=", upper_y)
 					mask = mask_1 - mask_0
 					for i in range(lower_x, upper_x):
 						for j in range(lower_y, upper_y):
@@ -177,5 +176,6 @@ for e in range(ensembles):
 				plt.imshow(Max_class_instances_original[0], interpolation='nearest')
 				plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
 				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+	print("Max Accuracy: %.2f%%" %(max), file=f)
     
 f.close()
