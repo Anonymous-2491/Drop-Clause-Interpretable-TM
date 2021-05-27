@@ -20,7 +20,7 @@ parser.add_argument('-drop_clause', type=float, default=0.5)
 parser.add_argument('-state_bits', type=int, default=16)
 parser.add_argument('-patch_size', type=int, default=8)
 parser.add_argument('-gpus', type=int, default=16)
-parser.add_argument('-stop_train', type=int, default=1000)
+parser.add_argument('-stop_train', type=int, default=500)
 
 config = parser.parse_args()
 
@@ -200,7 +200,7 @@ for X_batch, Y_batch in datagen.flow(X_train, Y_train, batch_size=10000):
                 plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
                 plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
             
-        if batch > config.stop_train:
+        if batch > config.stop_train*5:
             break
                 
 f.close()
