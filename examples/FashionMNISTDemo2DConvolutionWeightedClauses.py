@@ -97,6 +97,7 @@ for i in range(X_test.shape[0]):
 	X_test[i,:] = cv2.adaptiveThreshold(X_test[i], 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
 f = open("fmnist_%.1f_%d_%d_%d.txt" % (s, clauses, T,  patch_size), "w+")
+max = 0.0
 
 for e in range(ensembles):
 	tm = MultiClassConvolutionalTsetlinMachine2D(clauses, T, s, (patch_size, patch_size), clause_drop_p = drop_clause, number_of_gpus = n_gpus, number_of_state_bits=number_of_state_bits)
@@ -110,15 +111,17 @@ for e in range(ensembles):
 		result_test = 100*(tm.predict(X_test) == Y_test).mean()
 		stop_testing = time()
 
-		result_train = 100*(tm.predict(X_train) == Y_train).mean()
+		#result_train = 100*(tm.predict(X_train) == Y_train).mean()
+		if result_test > max:
+			max = result_test
 
-		print("%d %d %.2f %.2f %.2f %.2f" % (e, i, result_train, result_test, stop_training-start_training, stop_testing-start_testing))
-		print("%d %d %.2f %.2f %.2f %.2f" % (e, i, result_train, result_test, stop_training-start_training, stop_testing-start_testing), file=f)
+		print("%d %.2f %.2f" % (i, result_test, stop_training-start_training))
+		print("%d %.2f %.2f" % (i, result_test, stop_training-start_training), file=f)
 		f.flush()
 
 		if config.interpret:
         
-			if max > 90.0:
+			if result_test > 89.0:
             
 				class_id = 0
 				clause = 0
@@ -182,5 +185,6 @@ for e in range(ensembles):
 				plt.imshow(Max_class_instances_original[0], interpolation='nearest')
 				plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
 				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+	print("Max Accuracy: %.2f%%" %(max), file=f)
             
 f.close()
