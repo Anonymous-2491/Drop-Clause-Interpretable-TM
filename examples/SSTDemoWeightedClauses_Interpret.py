@@ -39,7 +39,7 @@ parser.add_argument('-drop_clause', type=float, default=0.75)
 parser.add_argument('-state_bits', type=int, default=8)
 parser.add_argument('-features', type=int, default=7500)
 parser.add_argument('-gpus', type=int, default=16)
-parser.add_argument('-stop_train', type=int, default=150)
+parser.add_argument('-stop_train', type=int, default=100)
 parser.add_argument('-example', type=int, default=1)
 
 config = parser.parse_args()
