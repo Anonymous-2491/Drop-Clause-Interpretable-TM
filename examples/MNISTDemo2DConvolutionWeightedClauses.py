@@ -107,8 +107,8 @@ for e in range(ensembles):
 
 		result_train = 100*(tm.predict(X_train) == Y_train).mean()
 
-		print("%d %d %.2f %.2f %.2f %.2f" % (e, i, result_train, result_test, stop_training-start_training, stop_testing-start_testing))
-		print("%d %d %.2f %.2f %.2f %.2f" % (e, i, result_train, result_test, stop_training-start_training, stop_testing-start_testing), file=f)
+		print("#%d Accuracy: %.2f%% (%.2fs) \n" % (i, result_test, stop_training-start_training))
+		print("#%d Accuracy: %.2f%% (%.2fs) \n" % (i, result_test, stop_training-start_training), file=f)
 		f.flush()
 
 		if config.interpret:
