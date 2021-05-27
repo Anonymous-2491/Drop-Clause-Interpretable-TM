@@ -163,7 +163,7 @@ print(ytest.shape)
 X_dev = X_text[tt:,:]
 Y_dev = y[tt:]
 
-tm1 = MultiClassTsetlinMachine(c, T*16, s, clause_drop_p=drop_clause, number_of_gpus=n_gpus, number_of_state_bits=number_of_state_bits)
+tm1 = MultiClassTsetlinMachine(c, T*100, s, clause_drop_p=drop_clause, number_of_gpus=n_gpus, number_of_state_bits=number_of_state_bits)
 
 f = open("sst_weighted_%.1f_%d_%d_%.2f_%d_aug.txt" % (s, clauses, T, drop_clause, number_of_state_bits), "w+")
 
