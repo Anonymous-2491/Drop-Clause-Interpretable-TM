@@ -161,10 +161,6 @@ for e in range(ensembles):
 				for p in range(100):
 					output = np.zeros((image_size,image_size)).astype(np.uint8)
 					lower_x, lower_y, upper_x, upper_y, mask_1, mask_0 = get_lower_upper_x_y_masks(class_id, weight_indices[p])
-                    #print("Max Weight Number: ", p+1)
-                    #print("Weight: ", clause_weights_for_class[weight_indices[p]])
-                    #print(lower_x, "< x <=", upper_x)
-                    #print(lower_y, "< y <=", upper_y)
 					mask = mask_1 - mask_0
 					for i in range(lower_x, upper_x):
 						for j in range(lower_y, upper_y):
@@ -179,12 +175,12 @@ for e in range(ensembles):
 					outputs += output
                     
 				plt.imshow(Max_class_instances_original[0].astype(np.uint8), interpolation='nearest')
-				plt.savefig('img_dc_%.2f_%d.jpeg' %(drop_clause,batch))
+				plt.savefig('img_dc_%.2f.jpeg' %(drop_clause))
 				plt.imshow(outputs, cmap='hot', interpolation='nearest')
-				plt.savefig('heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+				plt.savefig('heatmap_dc_%.2f.png' %(drop_clause))
 				plt.imshow(Max_class_instances_original[0], interpolation='nearest')
 				plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
-				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+				plt.savefig('img_heatmap_dc_%.2f.png' %(drop_clause))
 	print("Max Accuracy: %.2f%%" %(max), file=f)
-            
+      
 f.close()
