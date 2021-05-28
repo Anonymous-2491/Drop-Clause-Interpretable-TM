@@ -170,12 +170,12 @@ for e in range(ensembles):
 					outputs += output
                     
 				plt.imshow(Max_class_instances_original[0].astype(np.uint8), interpolation='nearest')
-				plt.savefig('img_dc_%.2f_%d.jpeg' %(drop_clause,batch))
+				plt.savefig('img_dc_%.2f_%d.jpeg' %(drop_clause))
 				plt.imshow(outputs, cmap='hot', interpolation='nearest')
-				plt.savefig('heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+				plt.savefig('heatmap_dc_%.2f_%d.png' %(drop_clause))
 				plt.imshow(Max_class_instances_original[0], interpolation='nearest')
 				plt.imshow(outputs, cmap='cool', interpolation='nearest', alpha=0.5)
-				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause,batch))
+				plt.savefig('img_heatmap_dc_%.2f_%d.png' %(drop_clause))
 	print("Max Accuracy: %.2f%%" %(max), file=f)
     
 f.close()
