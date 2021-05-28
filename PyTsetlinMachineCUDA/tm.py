@@ -496,7 +496,7 @@ class MultiClassConvolutionalTsetlinMachine2D(CommonTsetlinMachine):
 		return np.argmax(self.score(X), axis=0)
 
 class MultiClassTsetlinMachine(CommonTsetlinMachine):
-	def __init__(self, number_of_clauses, T, s, clause_drop_p=0.0, feature_drop_p=0.0, number_of_gpus=1, boost_true_positive_feedback=1, number_of_state_bits=8, append_negated=True, grid=(16*13,1,1), block=(128,1,1)):
+	def __init__(self, number_of_clauses, T, s, clause_drop_p=0.0, feature_drop_p=0.01, number_of_gpus=1, boost_true_positive_feedback=1, number_of_state_bits=8, append_negated=True, grid=(16*13,1,1), block=(128,1,1)):
 		super().__init__(number_of_clauses, T, s, clause_drop_p=clause_drop_p, feature_drop_p=feature_drop_p, number_of_gpus=number_of_gpus, boost_true_positive_feedback=boost_true_positive_feedback, number_of_state_bits=number_of_state_bits, append_negated=append_negated, grid=grid, block=block)
 		self.negative_clauses = 1
 
