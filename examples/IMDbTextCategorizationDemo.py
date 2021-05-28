@@ -37,6 +37,7 @@ from matplotlib.colors import ListedColormap
 
 
 parser = ArgumentParser()
+parser.add_argument('-interpret', type=bool, default=False)
 parser.add_argument('-n_clauses_per_class', type=int, default=10000)
 parser.add_argument('-s', type=float, default=2.0)
 parser.add_argument('-T', type=int, default=80)
