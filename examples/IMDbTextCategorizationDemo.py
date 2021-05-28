@@ -304,3 +304,4 @@ if config.interpret:
     ax.set_aspect(0.3)
     plt.grid(True)
     plt.show()
+    plt.savefig('imdb_dc_%.2f.png' %(drop_clause))
