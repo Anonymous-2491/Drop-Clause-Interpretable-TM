@@ -38,7 +38,7 @@ _TEST_IMAGES_FILENAME = 'test_images.npy'
 _TEST_LABELS_FILENAME = 'test_labels.npy'
 
 # Change esp to change the probability of getting a corrupted image during testing.
-esp = 0.75
+esp = 0.5
 all_test_images = []
 all_test_labels = []
 
