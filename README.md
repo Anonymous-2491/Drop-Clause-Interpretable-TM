@@ -24,3 +24,9 @@ Running the code (from examples folder):
 	With changes in hyperparameters (For CIFAR10, MNIST and Fashion MNIST)- python CIFARDemo2DConvTM_Interpret.py -n_clauses_per_class 30000 -s 10.0 -T 750 -drop_clause 0.5 -patch_size 8 -gpus 16
 
 	Similarly for NLP Interpretability (For SST-2 and IMDb)- python SSTDemoWeightedClauses_Interpret.py
+	
+For running robustness test on MNIST-c:
+
+	Download mnist_c.zip from: https://zenodo.org/record/3239543#.YYkdSmDMKUk.
+
+	Just unzip and use the MNIST_robustness.py code.
